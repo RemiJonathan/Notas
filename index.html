@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Notas - Text Frequency Analysis</title>
+    <link type="text/css" rel="stylesheet" href="css/bootstrap.css">
+    <link type="text/css" rel="stylesheet" href="css/bootstrap-grid.css">
+    <link type="text/css" rel="stylesheet" href="css/bootstrap-reboot.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300&display=swap" rel="stylesheet">
+
+    <style>
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 140px;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 150%;
+            left: 50%;
+            margin-left: -75px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #555 transparent transparent transparent;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body style="font-family: 'Montserrat', sans-serif;">
+<div class="container">
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="#">
+            <img src="brand/ring.svg" width="100" height="100" class="d-inline-block align-top" alt="Notas Logo">
+            <span style="font-size: 65px">Notas</span>
+        </a>
+        <span class="navbar-text" style="font-size: 50px">
+    Decypher me!
+  </span>
+    </nav>
+
+    <div class="jumbotron">
+        <h1 class="display-4">Notas</h1>
+        <p class="lead">Online visual cesar cypher text frequency analyser</p>
+        <hr class="my-4">
+        <p>This Project was made in the context of <a href="https://remijonathan.com/">R&eacute;mi Jonathan
+            Choquette</a>'s
+            end of collegial studies <strong>Emerging Technologies</strong> class.</p>
+        <a class="btn btn-primary btn-lg" href="about.html" role="button">Learn more</a>
+    </div>
+    <div class="row">
+        <div class="card col-12 col-md-5 m-4">
+            <div class="card-body">
+                <h5 class="card-title">Lengthy Plain Text</h5>
+                <button type="button" class="btn btn-info" id="war">War &  Piece</button>
+                <button type="button" class="btn btn-info" id="inv">Invisible Man</button>
+                <button type="button" class="btn btn-info" id="don">Don Quixote</button>
+                <br />
+                <br />
+                <p class="card-text"><label for="plain">In this box you will paste a long text that is written normally
+                    in the same
+                    language as the ciphertext you are trying to analyze. (The longer the amount of text the better
+                    analyzed the frequency will be).</label></p>
+                <div class="col-12">
+                    <textarea placeholder="Paste text here" class="form-control" id="plain" rows="2"></textarea>
+                </div>
+                <br/>
+                <a href="#" class="btn btn-primary form-control">Analyse</a>
+            </div>
+        </div>
+        <div class="card col-12 col-md-5 m-4">
+            <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <button type="button" class="btn btn-info" id="enc_art1">Ykjne O Pjk</button>
+                <button type="button" class="btn btn-info" id="enc_art2">!dlroW ,olleH</button>
+                <button type="button" class="btn btn-info" id="enc_art3">Qwerty Asdfg</button>
+                <br />
+                <br />
+                <p class="card-text"><label for="cipher">In this box you will paste the lengthy ciphertext desired for
+                    analysis.</label></p>
+
+                <div class="col-12">
+                    <textarea placeholder="Paste text here" class="form-control" id="cipher" rows="4"></textarea>
+                </div>
+                <br/>
+                <a href="#" class="btn btn-primary form-control">Analyse</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="js/bootstrap.js"></script>
+<script src="js/bootstrap.bundle.js"></script>
+<script src="js/jquery-3.4.1.js"></script>
+</body>
+</html>
