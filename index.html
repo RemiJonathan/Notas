@@ -44,7 +44,8 @@
             height: 25px;
             border-radius: 50%;
             background: #4CAF50; /* Green background */
-            cursor: pointer; /* Cursor on hover */
+            cursor: pointer;
+        }/* Cursor on hover */
     </style>
 </head>
 <body style="font-family: 'Montserrat', sans-serif;">
@@ -124,11 +125,19 @@
     </div>
     <div class="col-12"><input class="form-control" type="range" id="slide_factor" value="0" min="0" max="25"></div>
 
+    <div class="col-12">
+        <h2>Deciphered Output</h2>
+        <textarea class="form-control" rows="10" id="decipher_output" readonly></textarea>
+    </div>
+
     <footer class="pt-4 my-md-5 pt-md-5 border-top">
         <div class="row">
             <div class="col-12 col-md">
                 <img class="mb-2" src="brand/ring.svg" alt="" width="150" height="150">
-                <small class="d-block mb-3 text-muted">&copy; 2020</small>
+                <small class="d-block mb-3 text-muted"><a href="https://remijonathan.com">R&eacute;mi Jonathan Choquette</a>,
+                    This Source Code Form is subject to the terms of the Mozilla Public
+                    License, v. 2.0. If a copy of the MPL was not distributed with this
+                    file, You can obtain one at <a href="https://mozilla.org/MPL/2.0/">https://mozilla.org/MPL/2.0/</a>. &copy; 2020</small>
             </div>
 
             <div class="col-6 col-md">

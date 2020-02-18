@@ -1,3 +1,7 @@
+/*************
+ * LISTENERS *
+ *************/
+
 $('.btn-info').click(function () {
     let elementID = $(this).attr('id');
     const plainBox = $('#plain');
@@ -42,7 +46,6 @@ $('#parse_plain').click(function () {
     generateDataSet(buildFrequencyArray($('#plain').val()), plainChart);
     updateMixedChart(buildFrequencyArray($('#plain').val()), buildFrequencyArray($('#cipher').val()), $('#slide_factor').val());
 
-    console.log(plainChart);
 });
 
 $('#parse_cipher').click(function () {
@@ -54,13 +57,20 @@ $('#parse_cipher').click(function () {
     generateDataSet(buildFrequencyArray($('#cipher').val()), cipherChart);
     updateMixedChart(buildFrequencyArray($('#plain').val()), buildFrequencyArray($('#cipher').val()), $('#slide_factor').val());
 
-    console.log(cipherChart);
+    decaeserBy();
 });
 
-$('#slide_factor').on('input',function () {
+$('#slide_factor').on('input', function () {
     updateMixedChart(buildFrequencyArray($('#plain').val()), buildFrequencyArray($('#cipher').val()), $('#slide_factor').val());
+    decaeserBy();
 });
 
+
+/**
+ *
+ * @param inputText: String
+ * @returns {{a: number, b: number, c: number, d: number, e: number, f: number, g: number, h: number, i: number, j: number, k: number, l: number, m: number, n: number, o: number, p: number, q: number, r: number, s: number, t: number, u: number, v: number, w: number, x: number, y: number, z: number}}
+ */
 function buildFrequencyArray(inputText) {
     const inputArray = inputText.split('');
     let outputArray = {
@@ -141,4 +151,10 @@ function cycleArray(arr, cycles) {
         arr[key] = obj[key];
     }
     return arr;
+}
+
+function decaeserBy() {
+    str = document.getElementById("cipher").value;
+    offset = 0 - document.getElementById("slide_factor").value;
+    document.getElementById("decipher_output").textContent = str.replace(/[a-z]/gi, c => String.fromCharCode((x = c.charCodeAt(), a = x & 96, x - a + n + 129) % 26 - ~a), n = +offset);
 }
