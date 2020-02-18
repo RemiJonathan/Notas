@@ -1,6 +1,6 @@
 # Notas
 ###### **Open Source Visual frequency analysis cyphertext analysis.**
-######Special thanks to [Frederic Desautels](https://github.com/mrwompwomp) for his help and extensive JavaScript knowledge.
+###### Special thanks to [Frederic Desautels](https://github.com/mrwompwomp) for his help and extensive JavaScript knowledge.
 
 ## Introduction
 
