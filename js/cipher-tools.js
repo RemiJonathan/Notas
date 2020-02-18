@@ -97,7 +97,6 @@ function updateMixedChart(plainChartArray, cipherChartArray, bias) {
         addDataMixed(mixedChart, key, 1, plainChartArray[key]);
     }
 
-    //TODO: make add the ability to scroll through the array
     cipherChartArray = cycleArray(cipherChartArray, bias);
 
     for (let key in cipherChartArray) {
