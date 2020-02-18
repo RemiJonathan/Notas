@@ -1,5 +1,6 @@
 # Notas
 ###### **Open Source Visual frequency analysis cyphertext analysis.**
+######Special thanks to [Frederic Desautels](https://github.com/mrwompwomp) for his help and extensive JavaScript knowledge.
 
 ## Introduction
 
@@ -25,7 +26,7 @@ cyan boxes in order to load these texts into their respective boxes
 and then press analyze in order to see their frequencies.
 
 ## **Expected Usage Steps**
-1. do thing 1
-2. do thing 2
-3. do thing 3
-4. fourth thing
+1. In the `Lengthy Plain Text` box, paste a long text in the desired language (or use one provided by pressing one of the buttons).
+2. Click `Analyse`. You will the the frequency of the plain will text appear.
+3. In the `Cipher Text` paste the Caesar cipher text (or use one provided by pressing one of the buttons).
+4. Click `Analyse`. You will the the frequency of the cipher text will appear.
