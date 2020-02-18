@@ -34,11 +34,31 @@ $('.btn-info').click(function () {
 });
 
 $('#parse_plain').click(function () {
-    buildFrequencyArray($('#plain').val());
+
+    $('#plainCanvasHolder').slideDown(500);
+
+    removeAllData(plainChart);
+
+    generateDataSet(buildFrequencyArray($('#plain').val()), plainChart);
+    updateMixedChart(buildFrequencyArray($('#plain').val()), buildFrequencyArray($('#cipher').val()), $('#slide_factor').val());
+
+    console.log(plainChart);
 });
 
 $('#parse_cipher').click(function () {
-    buildFrequencyArray($('#cipher').val());
+
+    $('#cipherCanvasHolder').slideDown(500);
+
+    removeAllData(cipherChart);
+
+    generateDataSet(buildFrequencyArray($('#cipher').val()), cipherChart);
+    updateMixedChart(buildFrequencyArray($('#plain').val()), buildFrequencyArray($('#cipher').val()), $('#slide_factor').val());
+
+    console.log(cipherChart);
+});
+
+$('#slide_factor').on('input',function () {
+    updateMixedChart(buildFrequencyArray($('#plain').val()), buildFrequencyArray($('#cipher').val()), $('#slide_factor').val());
 });
 
 function buildFrequencyArray(inputText) {
@@ -56,6 +76,70 @@ function buildFrequencyArray(inputText) {
         }
     }
 
-    console.log(outputArray);
     return outputArray;
+}
+
+function generateDataSet(inputArray, chart) {
+    for (let key in inputArray) {
+        addData(chart, key.toUpperCase(), inputArray[key]);
+    }
+
+    chart.update();
+}
+
+function updateMixedChart(plainChartArray, cipherChartArray, bias) {
+    removeAllData(mixedChart);
+
+    console.log(plainChartArray);
+    console.log(cipherChartArray);
+
+    for (let key in plainChartArray) {
+        addDataMixed(mixedChart, key, 1, plainChartArray[key]);
+    }
+
+    //TODO: make add the ability to scroll through the array
+    cipherChartArray = cycleArray(cipherChartArray, bias);
+
+    for (let key in cipherChartArray) {
+        addDataMixed(mixedChart, key.toUpperCase(), 0, cipherChartArray[key]);
+    }
+    mixedChart.update();
+}
+
+function addData(chart, label, data) {
+    chart.data.labels.push(label);
+    chart.data.datasets.forEach((dataset) => {
+        dataset.data.push(data);
+    });
+}
+
+function removeAllData(chart) {
+    for (let i = 0; i < 26; i++) {
+        removeData(chart);
+    }
+}
+
+function removeData(chart) {
+    chart.data.labels.pop();
+    chart.data.datasets.forEach((dataset) => {
+        dataset.data.pop();
+    });
+}
+
+function addDataMixed(chart, label, index, data) {
+    if (index === 0) chart.data.labels.push(label);
+    chart.data.datasets[index].data.push(data);
+}
+
+function cycleArray(arr, cycles) {
+    for (let i = 0; i < cycles; i++) {
+        let obj = {};
+        key = Object.keys(arr)[0];
+        obj[key] = Object.keys(arr).map(function (k) {
+            return arr[k];
+        })[0];
+        delete arr[key];
+        arr[key] = obj[key];
+    }
+    return arr;
 }

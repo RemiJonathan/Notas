@@ -9,43 +9,42 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300&display=swap" rel="stylesheet">
 
     <style>
-        .tooltip {
-            position: relative;
-            display: inline-block;
+        /* The slider itself */
+        .slider {
+            -webkit-appearance: none;  /* Override default CSS styles */
+            appearance: none;
+            width: 100%; /* Full-width */
+            height: 15px;
+            border-radius: 5px;
+            background: #d3d3d3; /* Grey background */
+            outline: none; /* Remove outline */
+            opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+            -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+            transition: opacity .2s;
         }
 
-        .tooltip .tooltiptext {
-            visibility: hidden;
-            width: 140px;
-            background-color: #555;
-            color: #fff;
-            text-align: center;
-            border-radius: 6px;
-            padding: 5px;
-            position: absolute;
-            z-index: 1;
-            bottom: 150%;
-            left: 50%;
-            margin-left: -75px;
-            opacity: 0;
-            transition: opacity 0.3s;
+        /* Mouse-over effects */
+        .slider:hover {
+            opacity: 1; /* Fully shown on mouse-over */
         }
 
-        .tooltip .tooltiptext::after {
-            content: "";
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            margin-left: -5px;
-            border-width: 5px;
-            border-style: solid;
-            border-color: #555 transparent transparent transparent;
+        /* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none; /* Override default look */
+            appearance: none;
+            width: 25px; /* Set a specific slider handle width */
+            height: 25px;
+            border-radius: 50%;
+            background: #4CAF50; /* Green background */
+            cursor: pointer; /* Cursor on hover */
         }
 
-        .tooltip:hover .tooltiptext {
-            visibility: visible;
-            opacity: 1;
-        }
+        .slider::-moz-range-thumb {
+            width: 25px; /* Set a specific slider handle width */
+            height: 25px;
+            border-radius: 50%;
+            background: #4CAF50; /* Green background */
+            cursor: pointer; /* Cursor on hover */
     </style>
 </head>
 <body style="font-family: 'Montserrat', sans-serif;">
@@ -69,15 +68,17 @@
             end of collegial studies <strong>Emerging Technologies</strong> class.</p>
         <a class="btn btn-primary btn-lg" href="about.html" role="button">Learn more</a>
     </div>
+
     <div class="row">
+        <h1 class="col-12" id="ana"><a href="#ana">#</a>Analyzing the text</h1>
         <div class="card col-12 col-lg-5 m-lg-4">
             <div class="card-body">
                 <h5 class="card-title">Lengthy Plain Text</h5>
-                <button type="button" class="btn btn-info" id="war">War &  Piece</button>
+                <button type="button" class="btn btn-info" id="war">War & Piece</button>
                 <button type="button" class="btn btn-info" id="inv">Invisible Man</button>
                 <button type="button" class="btn btn-info" id="don">Don Quixote</button>
-                <br />
-                <br />
+                <br/>
+                <br/>
                 <p class="card-text"><label for="plain">In this box you will paste a long text that is written normally
                     in the same
                     language as the ciphertext you are trying to analyze. (The longer the amount of text the better
@@ -86,17 +87,20 @@
                     <textarea placeholder="Paste text here" class="form-control" id="plain" rows="2"></textarea>
                 </div>
                 <br/>
-                <a href="#" class="btn btn-primary form-control" id="parse_plain">Analyse</a>
+                <button type="button" class="btn btn-primary form-control" id="parse_plain">Analyse</button>
             </div>
+        </div>
+        <div class="col-12 col-lg-6" style="display: none;" id="plainCanvasHolder">
+            <canvas id="plainChart" aria-label="Plaintext frequency chart" role="img"></canvas>
         </div>
         <div class="card col-12 col-lg-5 m-lg-4">
             <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <button type="button" class="btn btn-info" id="enc_art1">Ykjne O Pjk</button>
-                <button type="button" class="btn btn-info" id="enc_art2">!dlroW ,olleH</button>
-                <button type="button" class="btn btn-info" id="enc_art3">Qwerty Asdfg</button>
-                <br />
-                <br />
+                <h5 class="card-title">Cipher Text</h5>
+                <button type="button" class="btn btn-info" id="enc_art1">Sample 1</button>
+                <button type="button" class="btn btn-info" id="enc_art2">Sample 2</button>
+                <button type="button" class="btn btn-info" id="enc_art3">Sample 3</button>
+                <br/>
+                <br/>
                 <p class="card-text"><label for="cipher">In this box you will paste the lengthy ciphertext desired for
                     analysis.</label></p>
 
@@ -104,15 +108,49 @@
                     <textarea placeholder="Paste text here" class="form-control" id="cipher" rows="4"></textarea>
                 </div>
                 <br/>
-                <a href="#" class="btn btn-primary form-control" id="parse_cipher">Analyse</a>
+                <button type="button" class="btn btn-primary form-control" id="parse_cipher">Analyse</button>
             </div>
         </div>
-        <div class="col-12 col-lg-6"><canvas id="plainCanvas"></canvas></div>
-        <div class="col-12 col-lg-6"><canvas id="cipherCanvas"></canvas></div>
+
+        <div class="col-12 col-lg-6" style="display: none;" id="cipherCanvasHolder">
+            <canvas id="cipherChart" aria-label="ciphertext frequency chart" role="img"></canvas>
+        </div>
     </div>
 
-</div>
 
+    <h1 class="col-12" id="brk"><a href="#brk">#</a>Breaking the cipher</h1>
+    <div class="col-12">
+        <canvas id="mixedChart" aria-label="mixedtext frequency chart" role="img"></canvas>
+    </div>
+    <div class="col-12"><input class="form-control" type="range" id="slide_factor" value="0" min="0" max="25"></div>
+
+    <footer class="pt-4 my-md-5 pt-md-5 border-top">
+        <div class="row">
+            <div class="col-12 col-md">
+                <img class="mb-2" src="brand/ring.svg" alt="" width="150" height="150">
+                <small class="d-block mb-3 text-muted">&copy; 2020</small>
+            </div>
+
+            <div class="col-6 col-md">
+                <h5>Resources</h5>
+                <ul class="list-unstyled text-small">
+                    <li><a class="text-muted" href="https://jquery.com/">jQuery</a></li>
+                    <li><a class="text-muted" href="https://getbootstrap.com/">Bootstrap</a></li>
+                    <li><a class="text-muted" href="https://www.chartjs.org/">Chart.js</a></li>
+                </ul>
+            </div>
+            <div class="col-6 col-md">
+                <h5>Social</h5>
+                <ul class="list-unstyled text-small">
+                    <li><a class="text-muted" href="https://github.com/RemiJonathan/">Github</a></li>
+                    <li><a class="text-muted"
+                           href="https://www.linkedin.com/in/r%C3%A9mi-jonathan-choquette-68b403149/">LinkedIn</a></li>
+                    <li><a class="text-muted" href="https://www.messenger.com/t/ChoqRe">Messenger</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+</div>
 <textarea style="display: none;" id="war_text">CHAPTER I
 
 “Well, Prince, so Genoa and Lucca are now just family estates of the
@@ -3512,35 +3550,140 @@ judtuhduii, ulud yd xuh ruij ev ceeti, qdt, ieeduh eh bqjuh,—evjuduh
 ieed jxqd bqju,—yi qfj je vbydw evv xuh duijbydwi, myjx q ishqjsx ev
 xuh sbqm, q tqr ev xuh ruqa, eh q hqdabydw mekdt vhec xuh rqhrut
 qhhemi.</textarea>
-<textarea style="display: none;" id="enc_art3_ci">Zkbyki Squiqh, jxu Tylydu, beij xyi vqjxuh mxud xu mqi yd jxu
-iynjuudjx ouqh ev xyi qwu; qdt jxu ouqh vebbemydw, ruydw decydqjut je
-jxu evvysu ev xywx-fhyuij ev Zkfyjuh, xu hufktyqjut Seiikjyq, mxe mqi
-luho muqbjxo, qbjxekwx xuh vqcybo rubedwut edbo je jxu ugkuijhyqd ehtuh,
-qdt je mxec xu xqt ruud sedjhqsjut mxud xu mqi q cuhu reo.  Xu jxud
-cqhhyut (2) Sehdubyq, jxu tqkwxjuh ev Syddq, mxe mqi vekh jycui sedikb;
-qdt xqt ro xuh, ixehjbo qvjuhmqhti, q tqkwxjuh dqcut Zkbyq.  Huiyijydw
-qbb jxu uvvehji ev jxu tysjqjeh Iobbq je ydtksu xyc je tylehsu Sehdubyq,
-xu ikvvuhut jxu fudqbjo ev ruydw ijhyffut ev xyi iqsuhtejqb evvysu, xyi
-myvu’i temho, qdt xyi emd fqjhycedyqb uijqjui; qdt, ruydw ytudjyvyut myjx
-jxu qtluhiu vqsjyed, mqi secfubbut je myjxthqm vhec Hecu.  Qvjuh
-sxqdwydw xyi fbqsu ev sedsuqbcudj duqhbo uluho dywxj, qbjxekwx xu mqi
-ikvvuhydw vhec q gkqhjqd qwku, qdt xqlydw uvvusjut xyi hubuqiu ro rhyrydw
-jxu evvysuhi mxe xqt jhqsaut xyi veejijufi, xu qj budwjx erjqydut q
-fqhted jxhekwx jxu ydjuhsuiiyed ev jxu luijqb lyhwydi, qdt ev Cqcuhski
-Qucybyki qdt Qkhubyki Sejjq, xyi duqh hubqjylui.  Mu qhu qiikhut jxqj
-mxud Iobbq, xqlydw myjxijeet veh q mxybu jxu udjhuqjyui ev xyi emd ruij
-vhyudti, fuhiedi ev tyijydwkyixut hqda, qj bqij oyubtut je jxuyh
-ycfehjkdyjo, xu unsbqycut--uyjxuh ro q tylydu ycfkbiu, eh vhec q ixhumt
-sedzusjkhu: “Oekh ikyj yi whqdjut, qdt oek cqo jqau xyc qcedw oek; rkj
-adem,” xu qttut, “jxqj jxyi cqd, veh mxeiu iqvujo oek qhu ie unjhucubo
-qdnyeki, mybb, iecu tqo eh ejxuh, ru jxu hkyd ev jxu fqhjo ev jxu derbui,
-yd tuvudsu ev mxysx oek qhu buqwkut myjx cu; veh yd jxyi edu Squiqh, oek
-mybb vydt cqdo q Cqhyki.”</textarea>
+<textarea style="display: none;" id="enc_art3_ci">Fqheqo Ywaown, pda Zereja, hkop deo bwpdan sdaj da swo ej pda
+oetpaajpd uawn kb deo wca; wjz pda uawn bkhhksejc, xaejc jkiejwpaz pk
+pda kbbeya kb decd-lneaop kb Fqlepan, da nalqzewpaz Ykooqpew, sdk swo
+ranu sawhpdu, whpdkqcd dan bwiehu xahkjcaz kjhu pk pda amqaopnewj knzan,
+wjz pk sdki da dwz xaaj ykjpnwypaz sdaj da swo w iana xku.  Da pdaj
+iwnneaz (2) Yknjahew, pda zwqcdpan kb Yejjw, sdk swo bkqn peiao ykjoqh;
+wjz dwz xu dan, odknphu wbpanswnzo, w zwqcdpan jwiaz Fqhew.  Naoeopejc
+whh pda abbknpo kb pda zeypwpkn Ouhhw pk ejzqya dei pk zerknya Yknjahew,
+da oqbbanaz pda lajwhpu kb xaejc opnellaz kb deo owyanzkpwh kbbeya, deo
+seba’o zksnu, wjz deo ksj lwpneikjewh aopwpao; wjz, xaejc ezajpebeaz sepd
+pda wzranoa bwypekj, swo ykilahhaz pk sepdznws bnki Nkia.  Wbpan
+ydwjcejc deo lhwya kb ykjyawhiajp jawnhu aranu jecdp, whpdkqcd da swo
+oqbbanejc bnki w mqwnpwj wcqa, wjz dwrejc abbaypaz deo nahawoa xu xnexejc
+pda kbbeyano sdk dwz pnwygaz deo bkkpopalo, da wp hajcpd kxpwejaz w
+lwnzkj pdnkqcd pda ejpanyaooekj kb pda raopwh rencejo, wjz kb Iwianyqo
+Waieheqo wjz Wqnaheqo Ykppw, deo jawn nahwperao.  Sa wna wooqnaz pdwp
+sdaj Ouhhw, dwrejc sepdopkkz bkn w sdeha pda ajpnawpeao kb deo ksj xaop
+bneajzo, lanokjo kb zeopejcqeodaz nwjg, wp hwop ueahzaz pk pdaen
+eilknpqjepu, da atyhweiaz--aepdan xu w zereja eilqhoa, kn bnki w odnasz
+ykjfaypqna: “Ukqn oqep eo cnwjpaz, wjz ukq iwu pwga dei wikjc ukq; xqp
+gjks,” da wzzaz, “pdwp pdeo iwj, bkn sdkoa owbapu ukq wna ok atpnaiahu
+wjtekqo, sehh, okia zwu kn kpdan, xa pda nqej kb pda lwnpu kb pda jkxhao,
+ej zabajya kb sdeyd ukq wna hawcqaz sepd ia; bkn ej pdeo kja Ywaown, ukq
+sehh bejz iwju w Iwneqo.”</textarea>
 
+<script src="js/jquery-3.4.1.js"></script>
 <script src="js/bootstrap.js"></script>
 <script src="js/bootstrap.bundle.js"></script>
-<script src="js/jquery-3.4.1.js"></script>
-<script src="js/cipher-tools.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script>
+    const plainCtx = document.getElementById('plainChart').getContext('2d');
+    let plainChart = new Chart(plainCtx, {
+        // The type of chart we want to create
+        type: 'line',
+
+        // The data for our dataset
+        data: {
+            labels: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'],
+            datasets: [{
+                label: 'Plain Text Frequency',
+                backgroundColor: 'rgb(127,0,255)',
+                borderColor: 'rgb(255,0,255)',
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    id: 'A',
+                    type: 'linear',
+                    position: 'left',
+                    ticks: {
+                        min: 0
+                    }
+                }]
+            }
+        }
+    });
+
+    const cipherCtx = document.getElementById('cipherChart').getContext('2d');
+    let cipherChart = new Chart(cipherCtx, {
+        // The type of chart we want to create
+        type: 'line',
+
+        // The data for our dataset
+        data: {
+            labels: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'],
+            datasets: [{
+                label: 'Cipher Text Frequency',
+                backgroundColor: 'rgb(127,0,255)',
+                borderColor: 'rgb(255,0,255)',
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    id: 'A',
+                    type: 'linear',
+                    position: 'left',
+                    ticks: {
+                        min: 0
+                    }
+                }]
+            }
+        }
+    });
+
+    const mixedCtx = document.getElementById('mixedChart').getContext('2d');
+    let mixedChart = new Chart(mixedCtx, {
+        // The type of chart we want to create
+        type: 'line',
+
+        // The data for our dataset
+        data: {
+            labels: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'],
+            datasets: [{
+                label: 'Cipher Text Frequency',
+                yAxisID: 'A',
+                backgroundColor: 'rgb(127,0,255)',
+                borderColor: 'rgb(255,0,255)',
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            },{
+                label: 'Plain Text Frequency',
+                yAxisID: 'B',
+                backgroundColor: 'rgb(0,127,255)',
+                borderColor: 'rgb(0,255,255)',
+                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    id: 'A',
+                    type: 'linear',
+                    position: 'left',
+                    ticks: {
+                        min: 0
+                    }
+                }, {
+                    id: 'B',
+                    type: 'linear',
+                    position: 'right',
+                    ticks: {
+                        min: 0
+                    }
+                }]
+            }
+        }
+    });
+
+
+
+</script>
+<script src="js/cipher-tools.js"></script>
 </body>
 </html>
