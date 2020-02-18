@@ -157,4 +157,5 @@ function decaeserBy() {
     str = document.getElementById("cipher").value;
     offset = 0 - document.getElementById("slide_factor").value;
     document.getElementById("decipher_output").textContent = str.replace(/[a-z]/gi, c => String.fromCharCode((x = c.charCodeAt(), a = x & 96, x - a + n + 129) % 26 - ~a), n = +offset);
+    document.getElementById("changed_letter").textContent = ('A').replace(/[a-z]/gi, c => String.fromCharCode((x = c.charCodeAt(), a = x & 96, x - a + n + 129) % 26 - ~a), n = +offset);
 }
