@@ -30,3 +30,8 @@ and then press analyze in order to see their frequencies.
 2. Click `Analyse`. You will the the frequency of the plain will text appear.
 3. In the `Cipher Text` paste the Caesar cipher text (or use one provided by pressing one of the buttons).
 4. Click `Analyse`. You will the the frequency of the cipher text will appear.
+5. You can now use the slider below to align the frequencies. Once they are alligned, you should be able to read the deciphered text below.
+
+**Other Potential Uses**
+
+Other than decipering a text, pasting a plain text inside the cipher text field can allow the user to cipher it.

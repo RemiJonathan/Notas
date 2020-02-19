@@ -118,7 +118,7 @@
         </div>
     </div>
 
-
+<!--Breaking the cipher section: shows the frequency and allows the user to modify the output in order to decipher it-->
     <h1 class="col-12" id="brk"><a href="#brk">#</a>Breaking the cipher<sub id="equivalence">(A → <span id="changed_letter">A</span>)</sub></h1>
     <div class="col-12">
         <canvas id="mixedChart" aria-label="mixedtext frequency chart" role="img"></canvas>
@@ -130,6 +130,7 @@
         <textarea class="form-control" rows="10" id="decipher_output" readonly></textarea>
     </div>
 
+    <!--Footer-->
     <footer class="pt-4 my-md-5 pt-md-5 border-top">
         <div class="row">
             <div class="col-12 col-md">
@@ -160,6 +161,7 @@
         </div>
     </footer>
 </div>
+<!--Sample Texts-->
 <textarea style="display: none;" id="war_text">CHAPTER I
 
 “Well, Prince, so Genoa and Lucca are now just family estates of the
@@ -3588,6 +3590,7 @@ sehh bejz iwju w Iwneqo.”</textarea>
 <script src="js/bootstrap.js"></script>
 <script src="js/bootstrap.bundle.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<!--Initislixe the charts, see chart.js documentation for mon info-->
 <script>
     const plainCtx = document.getElementById('plainChart').getContext('2d');
     let plainChart = new Chart(plainCtx, {
